@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>srp</title>
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+</head>
+<body>
+<div style="margin-left: 15%;margin-right: 15%;margin-top: 5%">
+    <form class="layui-form" action="" id="feedBackForm" enctype="multipart/form-data">
+        <div class="layui-form-item">
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="uName">社团名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="cName" name="cName" lay-verify="required" placeholder="请输入社团名称"
+                           autocomplete="off"
+                           class="layui-input">
+                </div>
+            </div>
+            <!--图片上传-->
+            <div class="layui-form-item"
+                 style="float: left">
+                <button type="button" class="layui-btn" id="selectImg1">上传社团图标</button>
+                <h4 style="color: #9d9d9d">小于100KB！</h4>
+                <input type="text" class="layui-hide" name=""/>
+                <blockquote class="layui-elem-quote layui-quote-nm"
+                            style="margin-top: 10px;">
+                    <div id="previewImg1" class="layui-clear feedback-overflow">
+                    </div>
+                </blockquote>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="cCreateTime">创建日期</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="cCreateTime" name="cCreateTime" lay-verify="date" placeholder="yyyy-MM-dd"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <br/>
+            <br/>
+
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label" for="cDescription">社团介绍</label>
+                <div class="layui-input-block">
+                    <textarea placeholder="请输入内容" id="cDescription" class="layui-textarea"
+                              name="cDescription"></textarea>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="uName">负责人姓名</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="uName" name="uName" lay-verify="required" placeholder="请输入姓名"
+                           autocomplete="off"
+                           class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" for="uStuNumber">负责人学号</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="uStuNumber" name="uStuNumber" lay-verify="required" placeholder="请输入学号"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+
+        <!--图片上传-->
+        <div class="layui-form-item">
+            <button type="button" class="layui-btn" id="selectImg2">请上传学号正面及社团证明图</button>
+            <h4 style="color: #92B8B1">支持两张图片同时上传，图片应小于200KB</h4>
+            <input type="text" class="layui-hide" name=""/>
+            <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
+                <div id="previewImg2" class="layui-clear feedback-overflow">
+                </div>
+            </blockquote>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="feedback-block">
+                <button type="button" id="submitBtn" class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+                <button type="button" class="btn btn-primary" id="testListAction1" style="display:none">
+                    提交图片
+                </button>
+                <button type="button" class="btn btn-primary" id="testListAction2" style="display:none">
+                    提交图片
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script src="../layui/layui.js" charset="utf-8"></script>
+<script src="../js/jquery-3.5.1.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script src="../js/canvas-nest.js"></script>
+<script>
+    layui.use(['layer', 'upload', 'form', 'laydate'], function () {
+        var $ = layui.jquery
+            , upload = layui.upload
+            , form = layui.form
+            , layer = layui.layer
+            , laydate = layui.laydate;
+
+        //日期
+        laydate.render({
+            elem: '#cCreateTime'
+        });
+
+        var photo1;
+        var photo2;
+        var photo3;
+
+        //普通图片上传
+        var uploadList1 = upload.render({
+            elem: '#selectImg1'
+            , url: "/srp/file/upload"
+            , accept: 'images'
+            , acceptMime: 'image/*'
+            , size: 100
+            , method: 'post'
+            , multiple: false
+            , auto: false
+            , bindAction: '#testListAction1'
+            , choose: function (obj) {
+                files = obj.pushFile(); //将每次选择的文件追加到文件队列
+
+                //图像预览，如果是多文件，会逐个添加。(不支持ie8/9)
+                obj.preview(function (index, file, result) {
+                    var imgBox = document.createElement("div");//预览图、删除预览图按钮容器
+                    var imgDelete = document.createElement("div");//删除预览图按钮
+                    var imgobj = new Image(); //创建新img对象
+
+                    imgBox.style.float = 'left';
+                    imgBox.style.position = 'relative';
+
+                    imgDelete.setAttribute('class', "feedback-delete-btn layui-icon layui-icon-close-fill");
+                    imgDelete.setAttribute('title', '删除');
+
+                    imgobj.src = result; //指定数据源
+                    imgobj['layer-src'] = result;
+                    imgobj.alt = file.name;
+                    imgobj.className = 'layui-upload-img';
+                    imgobj['layer-index'] = index;
+                    imgobj.width = 200;
+                    imgobj.height = 200;
+
+                    imgBox.appendChild(imgobj);
+                    imgBox.appendChild(imgDelete);
+
+                    imgDelete.onclick = function () { // 为预览图的删除按钮绑定删除事件
+                        delete files[index]; //删除对应的文件
+                        document.getElementById("previewImg1").removeChild(imgBox);//从预览区域移除
+                        uploadList1.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+                    };
+
+                    document.getElementById("previewImg1").appendChild(imgBox); //添加到预览区域
+
+                    //photos 图片层
+                    layer.photos({//此处目前存在bug 导致单击后无法在弹层中打开预览  下面会讲解如何处理
+                        photos: '#previewImg1'
+                        , anim: 0
+                    });
+                });
+            }, done: function (res, index, upload) {
+                photo3 = res.data;
+            }
+        });
+
+        //多图片上传
+        var flag = 0;
+        var uploadList2 = upload.render({
+            elem: '#selectImg2'
+            , url: "/srp/file/upload"
+            , accept: 'images'
+            , size : 200
+            , acceptMime: 'image/*'
+            , method: 'post'
+            , multiple: true
+            , auto: false
+            , bindAction: '#testListAction2'
+            , choose: function (obj) {
+                files = obj.pushFile(); //将每次选择的文件追加到文件队列
+
+                //图像预览，如果是多文件，会逐个添加。(不支持ie8/9)
+                obj.preview(function (index, file, result) {
+                    var imgBox = document.createElement("div");//预览图、删除预览图按钮容器
+                    var imgDelete = document.createElement("div");//删除预览图按钮
+                    var imgobj = new Image(); //创建新img对象
+
+                    imgBox.style.float = 'left';
+                    imgBox.style.position = 'relative';
+
+                    imgDelete.setAttribute('class', "feedback-delete-btn layui-icon layui-icon-close-fill");
+                    imgDelete.setAttribute('title', '删除');
+
+                    imgobj.src = result; //指定数据源
+                    imgobj['layer-src'] = result;
+                    imgobj.alt = file.name;
+                    imgobj.className = 'layui-upload-img';
+                    imgobj['layer-index'] = index;
+
+                    imgBox.appendChild(imgobj);
+                    imgBox.appendChild(imgDelete);
+
+                    imgDelete.onclick = function () { // 为预览图的删除按钮绑定删除事件
+                        delete files[index]; //删除对应的文件
+                        document.getElementById("previewImg2").removeChild(imgBox);//从预览区域移除
+                        uploadList2.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+                    };
+
+                    document.getElementById("previewImg2").appendChild(imgBox); //添加到预览区域
+
+                    //photos 图片层
+                    layer.photos({//此处目前存在bug 导致单击后无法在弹层中打开预览  下面会讲解如何处理
+                        photos: '#previewImg2'
+                        , anim: 0
+                    });
+                });
+            }, allDone: function (obj) { //当文件全部被提交后，才触发
+                finish();
+
+            }, done: function (res, index, upload) {
+                if (flag == 0) {
+                    photo1 = res.data;
+                    flag = 1;
+                } else {
+                    photo2 = res.data;
+                }
+            },
+        });
+
+        function finish() {
+            let jsonForm = $('#feedBackForm').serializeArray();
+
+            let jsonData = {};
+
+            $.each(jsonForm, function (i, v) {
+                jsonData[v.name] = v.value;
+            });
+
+            jsonData["sPhoto"] = photo1;
+            jsonData["cPhoto"] = photo2;
+            jsonData["tPhoto"] = photo3;
+
+            var finish = JSON.stringify(jsonData);
+
+            $.ajax({
+                url: "/srp/clubs",
+                type: "POST",
+                data: finish,
+                async: false,
+                contentType: "application/json",
+                dataType: "json",
+                processData: false,
+                error: function () {
+                    layer.msg('网络超时', {icon: 2});
+                },
+                success: function (data) {
+                    layer.msg('成功', {icon: 1});
+                }
+            });
+        }
+
+        //监听提交
+        form.on('submit(demo1)', function () {
+
+            $("#testListAction1").trigger("click");
+            $("#testListAction2").trigger("click");
+
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

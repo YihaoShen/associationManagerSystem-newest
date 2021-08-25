@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <!--如果不需要生成example的话将targetRuntime设置为MyBatis3Simple即可-->
+    <context id="test" targetRuntime="MyBatis3Simple">
+
+        <commentGenerator>
+            <!-- 生成的注释是否包含生成的时间，一般设置为true，不生成时间 -->
+            <property name="suppressDate" value="true" />
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true" />
+        </commentGenerator>
+        <!--数据库链接URL，用户名、密码 -->
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/srp?serverTimezone=Asia/Shanghai" userId="root"
+                        password="zxc201639">
+            <property name="nullCatalogMeansCurrent" value="true"/>
+        </jdbcConnection>
+        <javaTypeResolver>
+            <!-- 是否将数据库中的decimal类型转换为java的BigDecimal类型 -->
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+        <!-- 生成模型的包名和位置 -->
+        <javaModelGenerator targetPackage="com.srp.bean"
+                            targetProject="\JavaProgram\srp\src\main\java">
+            <property name="enableSubPackages" value="true" />
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+        <!-- 生成映射文件的包名和位置 -->
+        <sqlMapGenerator targetPackage="com.srp.dao"
+                         targetProject="\JavaProgram\srp\src\main\java">
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+        <!-- 生成DAO的包名和位置 -->
+        <javaClientGenerator type="XMLMAPPER"
+                             targetPackage="com.srp.dao"
+                             targetProject="\JavaProgram\srp\src\main\java">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+
+        <!-- 要生成哪些表 -->
+        <table tableName="user" domainObjectName="User">
+            <property name="useActualColumnNames" value="true"/>
+        </table>
+        <table tableName="activity" domainObjectName="Activity">
+            <property name="useActualColumnNames" value="true"/>
+        </table>
+        <table tableName="club" domainObjectName="Club">
+            <property name="useActualColumnNames" value="true"/>
+        </table>
+        <table tableName="club_activity" domainObjectName="ClubActivity">
+            <property name="useActualColumnNames" value="true"/>
+        </table>
+        <table tableName="club_member" domainObjectName="ClubMember">
+            <property name="useActualColumnNames" value="true"/>
+        </table>
+
+
+    </context>
+</generatorConfiguration>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>srp</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+</head>
+<body>
+<div style="margin-left: 10%;margin-right: 10%;margin-top: 10%">
+    <table class="layui-hide" id="test" lay-filter="test"></table>
+</div>
+
+<script type="text/html" id="photos">
+    <a class="layui-btn layui-btn-xs" lay-event="sPhoto">学生证</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="cPhoto">社团证明</a>
+</script>
+
+<script type="text/html" id="barApply">
+    <a class="layui-btn layui-btn-xs" lay-event="agree">同意</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="refuse">拒绝</a>
+</script>
+
+<script src="../layui/layui.js" charset="utf-8"></script>
+<script src="../js/jquery-3.5.1.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script src="../js/canvas-nest.js"></script>
+<script>
+    layui.use(['table', 'layer'], function () {
+        var table = layui.table;
+        var layer = layui.layer;
+
+        table.render({
+            elem: '#test'
+            , url: '/srp/clubApply'
+            , method: 'get'
+            , dataType: 'json'
+            , title: '社团申请表'
+            , cols: [[
+                {field: 'cName', title: '名称', width: 170}
+                , {field: 'cDescription', title: '简介', width: 140, sort: true}
+                , {field: 'uStuNumber', title: '负责人', width: 195}
+                , {field: 'cCreateTime', title: '创建时间', width: 155, sort: true}
+                , {fixed: 'right', title: '查看', toolbar: '#photos', width: 250}
+                , {fixed: 'right', title: '操作', toolbar: '#barApply', width: 150}
+            ]]
+            , page: true
+        });
+
+        table.on('tool(test)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'refuse') {
+                layer.msg('确认要拒绝吗？', {
+                    btn: ['确认', '取消']
+                    , yes: function (index) {
+                        $.ajax({
+                            url: "/srp/clubs/" + data.cId,
+                            type: "delete",
+                            dataType: "json",
+                            success: function (result) {
+                                if (result === "success") {
+                                    layer.msg('已拒绝！', {icon: 6, time: 2000});
+                                    obj.del();
+                                } else {
+                                    layer.msg('失败！', {icon: 6, time: 2000});
+                                    obj.del();
+                                }
+                            }
+                        });
+                    }
+                });
+            } else if (obj.event === 'agree') {
+                $.ajax({
+                    url: "/srp/clubApply/" + data.cId,
+                    type: "put",
+                    dataType: "json",
+                    success: function (result) {
+                        if (result === "success") {
+                            layer.msg('已同意！', {icon: 6, time: 2000});
+                            obj.del();
+                        } else {
+                            layer.msg('操作失败！', {icon: 6, time: 2000});
+                            obj.del();
+                        }
+                    }
+                });
+            }else if (obj.event === 'sPhoto'){
+                layer.open({
+                    type: 1,
+                    title: false,
+                    closeBtn: 0,
+                    anim: 1,
+                    shadeClose: true,
+                    move: true,
+                    skin: 'layui-layer-rim',
+                    content: '<img id="img-sPhoto" src="" style="height: 250px;width: 350px"/>',
+                    success: function (layero, index) {
+                        document.getElementById("img-sPhoto").src = data.sPhoto;
+                    }
+                })
+            }else if (obj.event === 'cPhoto'){
+                layer.open({
+                    type: 1,
+                    title: false,
+                    closeBtn: 0,
+                    anim: 1,
+                    shadeClose: true,
+                    move: true,
+                    skin: 'layui-layer-rim',
+                    content: '<img id="img-cPhoto" src="" style="height: 250px;width: 350px"/>',
+                    success: function (layero, index) {
+                        document.getElementById("img-cPhoto").src = data.cPhoto;
+                    }
+                })
+            }
+        });
+    });
+</script>
+</body>
+</html>

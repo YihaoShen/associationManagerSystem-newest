@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>srp</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <style type="text/css">
+        body {
+            background: #e0e5ec
+        }
+
+        button {
+            margin: 20px
+        }
+
+        .custom-btn {
+            width: 150px;
+            height: 50px;
+            color: #fff;
+            border-radius: 5px;
+            padding: 10px 25px;
+            font-family: 'Lato', sans-serif;
+            font-weight: 500;
+            background: transparent;
+            cursor: pointer;
+            transition: all .3s ease;
+            position: relative;
+            display: inline-block;
+            box-shadow: inset 2px 2px 2px 0 rgba(255, 255, 255, .5), 7px 7px 20px 0 rgba(0, 0, 0, .1), 4px 4px 5px 0 rgba(0, 0, 0, .1)
+        }
+
+        .btn-8 {
+            background-color: #f0ecfc;
+            background-image: linear-gradient(315deg, #f0ecfc 0, #c797eb 74%);
+            line-height: 42px;
+            padding: 0;
+            border: 0
+        }
+
+        .btn-8 span {
+            text-align: center;
+            display: block;
+            width: 100%;
+            height: 100%;
+            font-size: large;
+        }
+
+        .btn-8:before,
+        .btn-8:after {
+            position: absolute;
+            content: "";
+            right: 0;
+            bottom: 0;
+            background: #c797eb;
+            transition: all .3s ease
+        }
+
+        .btn-8:before {
+            height: 0;
+            width: 2px
+        }
+
+        .btn-8:after {
+            width: 0;
+            height: 2px
+        }
+
+        .btn-8:hover:before {
+            height: 100%
+        }
+
+        .btn-8:hover:after {
+            width: 100%
+        }
+
+        .btn-8:hover {
+            background: transparent
+        }
+
+        .btn-8 span:hover {
+            color: #c797eb
+        }
+
+        .btn-8 span:before,
+        .btn-8 span:after {
+            position: absolute;
+            content: "";
+            left: 0;
+            top: 0;
+            background: #c797eb;
+            transition: all .3s ease
+        }
+
+        .btn-8 span:before {
+            width: 2px;
+            height: 0
+        }
+
+        .btn-8 span:after {
+            height: 2px;
+            width: 0
+        }
+
+        .btn-8 span:hover:before {
+            height: 100%
+        }
+
+        .btn-8 span:hover:after {
+            width: 100%
+        }
+
+        .form_input {
+            font-size: 16px;
+            height: 40px;
+            border-radius: 4px;
+            border: 1px solid #c8cccf;
+            color: #000000;
+            outline: 0;
+            text-align: left;
+            padding-left: 10px;
+            display: block;
+            cursor: pointer;
+            box-shadow: 2px 2px 5px 1px #ccc;
+        }
+
+        .form_input::-webkit-input-placeholder {
+            color: #986655;
+            font-size: 16px;
+            padding-left: 10px;
+        }
+    </style>
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+</head>
+<body>
+<div style="margin-left: 15%;margin-right: 15%">
+    <form class="layui-form">
+        <div style="text-align: center;margin: 20px">
+            <h1 style="font-family: 仿宋">活动编辑</h1>
+        </div>
+        <div style="height: 60px">
+            <div style="float: left">
+                <input type="text" class="form_input" name="aTitle" id="aTitle" placeholder="请输入活动名称"/>
+            </div>
+            <div style="margin-left: 21%;float: left">
+                <div class="layui-form-item">
+                    <div class="layui-input-inline">
+                        <select id="activity_type" lay-verify="required" lay-search="">
+                            <option value="">请选择类型</option>
+                            <option value="1">比赛</option>
+                            <option value="2">活动</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-left: 21%;float: left">
+                <input type="text" class="form_input" name="uStuNumber" id="uStuNumber" placeholder="发布人学号"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-form-text">
+            <div class="layui-input-inline" style="width: 800px;margin-top: 50px">
+            <textarea id="aIntroduction" placeholder="请输入活动简介.."
+                      style="width: 550px;height: 200px;padding: 1em;border: 1px dashed transparent;background: linear-gradient(white,white) padding-box,repeating-linear-gradient(-45deg,#ccc 0, #ccc 0.25em,white 0,white 0.75em);"></textarea>
+            </div>
+            <!--图片上传-->
+            <div class="layui-upload feedback-padding"
+                 style="width: 350px;height: 300px;float: left;margin-top: 50px">
+                <button type="button" class="layui-btn" id="selectImg">活动封面图片</button>
+                <h4 style="color: #888888">Max:100KB</h4>
+                <input type="text" class="layui-hide" name="">
+                <div id="previewImg" class="layui-clear feedback-overflow"
+                     style="margin-top: 20px;float:right; border: 5px solid #ddd; padding: 5px;background: #fff;">
+                </div>
+            </div>
+
+        </div>
+
+        <div id="editor">
+        </div>
+        <div style="text-align: center;margin: 20px">
+            <button type="button" id="submit" class="custom-btn btn-8">
+        <span>
+            立即发布
+        </span>
+            </button>
+            <button type="button" class="btn btn-primary" id="testListAction1" style="display:none">
+                提交图片
+            </button>
+        </div>
+    </form>
+</div>
+</body>
+
+<script src="../layui/layui.js" charset="utf-8"></script>
+<script src="../js/jquery-3.5.1.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script src="../js/emoji.js"></script>
+<script src="../js/canvas-nest.js"></script>
+<script src="../wangEditor/dist/wangEditor.js"></script>
+<script>
+    var selectcId;
+    var selectuId;
+    var selectaId;
+    var editor;
+    window.onload = function () {
+        function getRequest() {
+            var url = location.search; //获取url中"?"符后的字串
+            var theRequest = new Object();
+            if (url.indexOf("?") != -1) {
+                var str = url.substr(1);
+                strs = str.split("&");
+                for (var i = 0; i < strs.length; i++) {
+                    theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+                }
+            }
+            return theRequest;
+        }
+
+        var request = getRequest();
+        selectcId = request.cId;
+        selectuId = request.uId;
+        selectaId = request.aId;
+
+        var E = window.wangEditor;
+        editor = new E('#editor');
+        editor.config.height = 600;
+        editor.config.placeholder = '请输入...';
+        editor.config.excludeMenus = [
+            'video'
+        ];
+        editor.config.emotions = [
+            {
+                title: '表情', // tab 的标题
+                type: 'image', // 'emoji' 或 'image' ，即 emoji 形式或者图片形式
+                content: jsonData
+            },
+
+        ];
+
+        editor.config.uploadImgMaxSize = 10 * 1024 * 1024;
+        editor.config.uploadImgAccept = ['jpg', 'jpeg', 'png', 'gif', 'bmp'];
+        editor.config.uploadImgServer = '/wangEditor/upload';
+        editor.config.uploadFileName = 'file';
+        editor.config.uploadImgHooks = {
+            // 图片上传并返回了结果，图片插入已成功
+            success: function (xhr) {
+                console.log('success', xhr)
+            },
+            // 图片上传并返回了结果，但图片插入时出错了
+            fail: function (xhr, editor, resData) {
+                console.log('fail', resData)
+            },
+            // 上传图片出错，一般为 http 请求的错误
+            error: function (xhr, editor, resData) {
+                console.log('error', xhr, resData)
+            },
+            // 上传图片超时
+            timeout: function (xhr) {
+                console.log('timeout')
+            },
+            // 图片上传并返回了结果，想要自己把图片插入到编辑器中
+            // 例如服务器端返回的不是 { errno: 0, data: [...] } 这种格式，可使用 customInsert
+            customInsert: function (insertImgFn, result) {
+                // insertImgFn 可把图片插入到编辑器，传入图片 src ，执行函数即可
+                insertImgFn(result.data);
+            }
+        };
+        editor.config.showLinkImg = false;
+
+        editor.create();
+
+        $.ajax({
+            url: "/srp/activity/" + selectaId,
+            type: "get",
+            dataType: "json",
+            success: function (result) {
+                $("#aTitle").val(result.aTitle);
+                $("#uStuNumber").val(result.uStuNumber);
+                $("#activity_type").val(result.activity_type);
+                $("#aIntroduction").val(result.aIntroduction);
+                document.getElementById("selectImg").innerText = "请重新上传图片";
+                editor.txt.html(result.aContent);
+            }
+        })
+
+    };
+
+    var aPhoto;
+    layui.use(['layer', 'upload', 'form'], function () {
+        var $ = layui.jquery
+            , upload = layui.upload;
+
+        //普通图片上传
+        uploadList = upload.render({
+            elem: '#selectImg'
+            , url: "/srp/file/upload"
+            , accept: 'images'
+            , size : 100
+            , acceptMime: 'image/*'
+            , method: 'post'
+            , multiple: false
+            , auto: false
+            , bindAction: '#testListAction1'
+            , choose: function (obj) {
+                files = obj.pushFile(); //将每次选择的文件追加到文件队列
+
+                //图像预览，如果是多文件，会逐个添加。(不支持ie8/9)
+                obj.preview(function (index, file, result) {
+                    var imgBox = document.createElement("div");//预览图、删除预览图按钮容器
+                    var imgDelete = document.createElement("div");//删除预览图按钮
+                    var imgobj = new Image(); //创建新img对象
+
+                    imgBox.style.float = 'left';
+                    imgBox.style.position = 'relative';
+
+                    imgDelete.setAttribute('class', "feedback-delete-btn layui-icon layui-icon-close-fill");
+                    imgDelete.setAttribute('title', '删除');
+
+                    imgobj.src = result; //指定数据源
+                    imgobj['layer-src'] = result;
+                    imgobj.alt = file.name;
+                    imgobj.className = 'layui-upload-img';
+                    imgobj['layer-index'] = index;
+                    imgobj.width = 200;
+                    imgobj.height = 200;
+
+                    imgBox.appendChild(imgobj);
+                    imgBox.appendChild(imgDelete);
+
+                    imgDelete.onclick = function () { // 为预览图的删除按钮绑定删除事件
+                        delete files[index]; //删除对应的文件
+                        document.getElementById("previewImg").removeChild(imgBox);//从预览区域移除
+                        uploadList.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+                    };
+
+                    document.getElementById("previewImg").appendChild(imgBox); //添加到预览区域
+
+                    //photos 图片层
+                    layer.photos({//此处目前存在bug 导致单击后无法在弹层中打开预览  下面会讲解如何处理
+                        photos: '#previewImg'
+                        , anim: 0
+                    });
+                });
+            }, done: function (res, index, upload) {
+                aPhoto = res.data;
+
+                // 读取 html
+                var html = editor.txt.html();
+                var aIntroduction = document.getElementById("aIntroduction").value;
+                var activity_type = document.getElementById("activity_type").value;
+                console.log(activity_type);
+                var date = new Date();
+                var nowMonth = date.getMonth() + 1;
+                var strDate = date.getDate();
+                var seperator = "-";
+                if (nowMonth >= 1 && nowMonth <= 9) {
+                    nowMonth = "0" + nowMonth;
+                }
+                if (strDate >= 0 && strDate <= 9) {
+                    strDate = "0" + strDate;
+                }
+                var nowDate = date.getFullYear() + seperator + nowMonth + seperator + strDate;
+
+                var aTitle = $('#aTitle').val();
+                var uStuNumber = $('#uStuNumber').val();
+
+                let jsonData = {};
+
+                jsonData["aAnnouncedTime"] = nowDate;
+                jsonData["aTitle"] = aTitle;
+                jsonData["aContent"] = html;
+                jsonData["cId"] = selectcId;
+                jsonData["uStuNumber"] = uStuNumber;
+                jsonData["aPhoto"] = aPhoto;
+                jsonData["aIntroduction"] = aIntroduction;
+                jsonData["activity_type"] = activity_type;
+                jsonData["aId"] = selectaId;
+                let params = JSON.stringify(jsonData);
+                $.ajax({
+                    url: "/srp/activities",
+                    type: "put",
+                    data: params,
+                    async: false,
+                    contentType: "application/json",
+                    dataType: "json",
+                    processData: false,
+                    success: function (result) {
+                        if (result !== "fail") {
+                            window.location.href = "activity_details.html?aId=" + selectaId + "&uId=" + selectuId;
+                        } else {
+                            alert('修改失败!');
+                            window.location.reload();
+                        }
+                    }
+                })
+
+            }
+        });
+    });
+
+    document.getElementById('submit').addEventListener('click', function () {
+
+        $("#testListAction1").trigger("click");
+
+    });
+
+</script>
+</html>

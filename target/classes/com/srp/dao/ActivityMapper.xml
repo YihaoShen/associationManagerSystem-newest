@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.srp.dao.ActivityMapper">
+    <select id="selectAllActivityByCid" resultType="activity">
+        SELECT aId,aTitle,aContent,aAnnouncedTime,c.cName,a.uStuNumber,aIntroduction,aPhoto
+        FROM activity a,club c
+        WHERE a.cId = #{cId} AND a.cId = c.cId
+    </select>
+
+    <select id="selectAllActivity" resultType="activity">
+        SELECT aId,aTitle,aContent,aAnnouncedTime,c.cName,activity_type,a.uStuNumber,aIntroduction,aPhoto
+        FROM activity a,club c
+        WHERE a.cId = c.cId
+        LiMIT #{arg0},#{arg1}
+    </select>
+
+    <select id="selectAllActivities" resultType="activity">
+        SELECT aId,aTitle,aContent,aAnnouncedTime,c.cName,activity_type,a.uStuNumber,aIntroduction,aPhoto
+        FROM activity a,club c
+        WHERE a.cId = c.cId
+    </select>
+
+    <select id="selectTotalActivities" resultType="int">
+        SELECT count(*)
+        FROM activity
+    </select>
+
+    <select id="selectSingleTotalActivities" resultType="int">
+        SELECT count(*)
+        FROM activity
+        WHERE cId = #{cId}
+    </select>
+
+    <select id="selectActivityByaId" resultType="activity">
+        SELECT aId,aTitle,aContent,aAnnouncedTime,c.cId,c.cName,a.uStuNumber,aIntroduction,aPhoto,activity_type
+        FROM activity a,club c
+        WHERE aId = #{aId} AND a.cId = c.cId
+    </select>
+
+    <insert id="addActivity">
+        INSERT INTO activity
+        (aTitle,aContent,aAnnouncedTime,cId,uStuNumber,aIntroduction,aPhoto,activity_type)
+        VALUES
+        (#{aTitle}, #{aContent}, #{aAnnouncedTime}, #{cId}, #{uStuNumber}, #{aIntroduction}, #{aPhoto}, #{activity_type})
+        <selectKey keyColumn="aId" resultType="int" keyProperty="aId" order="AFTER">
+            SELECT @@identity
+        </selectKey>
+    </insert>
+
+    <update id="updateActivity">
+        UPDATE activity
+        SET aTitle = #{aTitle},aContent = #{aContent},aAnnouncedTime = #{aAnnouncedTime},cId = #{cId},uStuNumber = #{uStuNumber},aIntroduction = #{aIntroduction},aPhoto = #{aPhoto},activity_type = #{activity_type}
+        WHERE aId = #{aId}
+    </update>
+
+    <delete id="deleteActivity">
+        DELETE FROM activity WHERE aId = #{aId}
+    </delete>
+</mapper>

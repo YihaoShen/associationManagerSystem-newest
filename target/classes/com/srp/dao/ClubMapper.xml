@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.srp.dao.ClubMapper">
+    <select id="selectAllClub" resultType="club">
+        SELECT cId,cName,cDescription,cCreateTime,uStuNumber,sPhoto,cphoto,tPhoto
+        FROM club
+        WHERE status = 1
+    </select>
+
+    <select id="selectApplyClub" resultType="club">
+        SELECT cId,cName,cDescription,cCreateTime,uStuNumber,sPhoto,cphoto,tPhoto
+        FROM club
+        WHERE status = 0
+    </select>
+
+    <select id="selectClubByFL" resultType="club">
+        SELECT cId,cName,cDescription,cCreateTime,uStuNumber,sPhoto,cphoto,tPhoto
+        FROM club
+        WHERE status = 1
+        LIMIT #{arg0},#{arg1}
+    </select>
+
+    <select id="selectTotalClub" resultType="int">
+        SELECT count(*)
+        FROM club
+        WHERE status = 1
+    </select>
+
+    <select id="selectClubById" resultType="club">
+        SELECT cId,cName,cDescription,cCreateTime,uStuNumber,sPhoto,cphoto,tPhoto FROM club WHERE cId = #{cId} AND  status = 1
+     </select>
+
+    <insert id="addClub">
+        INSERT INTO club
+        (cName,cDescription,cCreateTime,uStuNumber,sPhoto,cPhoto,tphoto,status)
+        VALUES
+        (#{cName}, #{cDescription}, #{cCreateTime}, #{uStuNumber}, #{sPhoto}, #{cPhoto}, #{tPhoto}, 0)
+        <selectKey resultType="int" keyProperty="cId" order="AFTER">
+            SELECT @@identity
+        </selectKey>
+    </insert>
+
+    <delete id="deleteClub">
+        DELETE FROM club WHERE cId = #{cId}
+  </delete>
+
+    <update id="updateClub">
+        UPDATE club
+        SET  cName = #{cName},cDescription = #{cDescription},cCreateTime = #{cCreateTime}
+        WHERE cId = #{cId}
+  </update>
+
+    <update id="agreeClub">
+        UPDATE club
+        SET  status = 1
+        WHERE cId = #{cId}
+  </update>
+</mapper>

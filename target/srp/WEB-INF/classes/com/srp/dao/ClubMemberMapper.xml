@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.srp.dao.ClubMemberMapper">
+
+    <select id="selectAllClubMember" resultType="clubMember">
+        SELECT cm.cId cId,cm.role role,u.uId uId,u.uName uName,
+        u.uStuNumber uStuNumber,u.uSex uSex,u.uCollege uCollege,
+        u.uCurrentMajor uCurrentMajor,u.uEnrolTime uEnrolTime,
+        u.phone phone,u.qq qq, rn.roleName roleName, status
+        FROM club_member cm, user u, role_name rn
+        WHERE cm.cId = #{cId} AND cm.uId = u.uId AND cm.role = rn.role
+  </select>
+
+    <select id="selectApplyMember" resultType="clubMember">
+        SELECT cm.cId cId,cm.role role,u.uId uId,u.uName uName,
+        u.uStuNumber uStuNumber,u.uSex uSex,u.uCollege uCollege,
+        u.uCurrentMajor uCurrentMajor,u.uEnrolTime uEnrolTime,
+        u.phone phone,u.qq qq
+        FROM club_member cm, user u
+        WHERE cm.cId = #{cId} AND cm.uId = u.uId AND cm.status = 0
+    </select>
+
+    <select id="selectRoleMember" resultType="clubMember">
+        SELECT cm.cId cId,cm.role role,u.uId uId,u.uName uName,
+        u.uStuNumber uStuNumber,u.uSex uSex,u.uCollege uCollege,
+        u.uCurrentMajor uCurrentMajor,u.uEnrolTime uEnrolTime,
+        u.phone phone,u.qq qq, u.uPhoto uPhoto, rn.roleName roleName
+        FROM club_member cm, user u, role_name rn
+        WHERE cm.cId = #{cId} AND cm.uId = u.uId AND (cm.role &lt; 3) AND cm.role = rn.role
+    </select>
+
+    <select id="selectAllClubByUid" resultType="club">
+        SELECT c.cId,cName,cDescription,cCreateTime,uStuNumber,sPhoto,cphoto,tPhoto
+        FROM club c,club_member cm
+        WHERE cm.uId = #{uId} AND cm.cId = c.cId AND cm.status = 1
+    </select>
+
+    <select id="selectClubMemberByNameAndNumber" resultType="clubMember">
+        SELECT cm.cId cId,cm.role role,u.uId uId,u.uName uName,
+        u.uStuNumber uStuNumber,u.uSex uSex,u.uCollege uCollege,
+        u.uCurrentMajor uCurrentMajor,u.uEnrolTime uEnrolTime,
+        u.phone phone,u.qq qq
+        FROM club_member cm, user u
+        WHERE cm.cId = #{arg0} AND cm.status = 1 AND cm.uId = u.uId AND (u.uName LIKE '%' #{arg1} '%' OR u.uStuNumber = #{arg2})
+  </select>
+
+    <insert id="addClubMember">
+        INSERT INTO club_member
+        (cId, uId, role, status)
+        VALUES
+        (#{arg0}, #{arg1}, 3, 0)
+  </insert>
+
+    <delete id="deleteClubMember">
+        DELETE FROM club_member WHERE cId = #{arg0} and uId = #{arg1}
+  </delete>
+
+    <update id="updateClubMember">
+        UPDATE club_member
+        SET  role = #{arg2}
+        WHERE cId = #{arg0} AND uId = #{arg1}
+  </update>
+
+    <update id="updateMemberStatus">
+        UPDATE club_member
+        SET  status = #{arg2}
+        WHERE cId = #{arg0} AND uId = #{arg1}
+  </update>
+</mapper>
