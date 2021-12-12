@@ -525,7 +525,7 @@
 
         var selectuId = getQueryVariable("uId");
         $.ajax({
-            url: "/srp/clubs",
+            url: "/associationManagerSystem_master_war_exploded/clubs",
             type: "get",
             dataType: "json",
             success: function (result) {
@@ -569,7 +569,7 @@
         }*/
         {
             $.ajax({
-                url: "/srp/clubs_member/" + selectuId,
+                url: "/associationManagerSystem_master_war_exploded/clubs_member/" + selectuId,
                 type: "get",
                 dataType: "json",
                 success: function (result) {
@@ -605,7 +605,7 @@
             });
         }
         $.ajax({
-            url: "/srp/all_activities/0/4",
+            url: "/associationManagerSystem_master_war_exploded/all_activities/0/4",
             type: "get",
             dataType: "json",
             success: function (result) {

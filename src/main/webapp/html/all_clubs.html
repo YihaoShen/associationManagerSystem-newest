@@ -128,17 +128,17 @@
         var selectuId = request.uId;
 
         $.ajax({
-            url: "/srp/uPhoto/" + selectuId,
+            url: "/associationManagerSystem_master_war_exploded/uPhoto/" + selectuId,
             type: "get",
             dataType: "json",
             success: function (result) {
                 document.getElementById("img-head").src = result.uPhoto;
-                document.getElementById("a-head").href ="/srp/userInfo/" + result.uName;
+                document.getElementById("a-head").href ="/associationManagerSystem_master_war_exploded/userInfo/" + result.uName;
             }
         });
 
         $.ajax({
-            url: "/srp/total_club",
+            url: "/associationManagerSystem_master_war_exploded/total_club",
             type: "get",
             dataType: "json",
             success: function (finish) {
@@ -150,7 +150,7 @@
                         elem: '#LAY_demo1' //流加载容器
                         ,done: function(page, next){ //执行下一页的回调
                             $.ajax({
-                                url: "/srp/clubs/" + (page*4 - 4) + "/" + 4,
+                                url: "/associationManagerSystem_master_war_exploded/clubs/" + (page*4 - 4) + "/" + 4,
                                 type: "get",
                                 dataType: "json",
                                 success: function (result) {

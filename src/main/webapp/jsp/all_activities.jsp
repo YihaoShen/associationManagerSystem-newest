@@ -111,7 +111,7 @@
 </div>
 <script type="text/javascript" src="../layui/layui.js"></script>
 <script src="../js/jquery-3.5.1.js"></script>
-<script src="../js/bootstrap.js"></script>
+<script src="../js/bootstrap.min.js"></script>
 <script src="../js/canvas-nest.js"></script>
 <script type="text/javascript">
   window.onload = function () {
@@ -131,7 +131,7 @@
     var request = getRequest();
     var selectuId = request.uId;
     $.ajax({
-      url: "/srp/total_activities",
+      url: "/srassociationManagerSystem_master_war_explodedp/total_activities",
       type: "get",
       dataType: "json",
       success: function (finish) {
@@ -149,7 +149,7 @@
             , layout: ['count', 'prev', 'page', 'next', 'skip']
             , jump: function (obj) {
               $.ajax({
-                url: "/srp/all_activity",
+                url: "/associationManagerSystem_master_war_exploded/all_activity",
                 type: "get",
                 dataType: "json",
                 success: function (result) {

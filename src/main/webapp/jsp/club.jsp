@@ -451,7 +451,7 @@
         selectcId = request.cId;
         selectuId = request.uId;
         $.ajax({
-            url: "/srp/clubs/" + selectcId,
+            url: "/associationManagerSystem_master_war_exploded/clubs/" + selectcId,
             type: "get",
             dataType: "json",
             success: function (result) {
@@ -474,7 +474,7 @@
             }
         });
         $.ajax({
-            url: "/srp/role/" + selectcId + "/" + selectuId,
+            url: "/associationManagerSystem_master_war_exploded/role/" + selectcId + "/" + selectuId,
             type: "get",
             dataType: "json",
             success: function (result) {
@@ -487,7 +487,7 @@
             }
         });
         $.ajax({
-           url: "/srp/clubMembers/" +selectcId,
+           url: "/associationManagerSystem_master_war_exploded/clubMembers/" +selectcId,
             type:"get",
             dataType:"json",
             success:function (result) {
@@ -509,7 +509,7 @@
             }
         });
         $.ajax({
-            url: "/srp/roleClubMember/" + selectcId,
+            url: "/associationManagerSystem_master_war_exploded/roleClubMember/" + selectcId,
             type: "get",
             dataType: "json",
             success: function (result) {
@@ -538,7 +538,7 @@
             }
         });
         $.ajax({
-            url: "/srp/activities/" + selectcId,
+            url: "/associationManagerSystem_master_war_exploded/activities/" + selectcId,
             type: "get",
             dataType: "json",
             success: function (result) {
@@ -587,7 +587,7 @@
                     btn: ['确认', '取消']
                     , yes: function (index) {
                         $.ajax({
-                            url: "/srp/clubMembers/" + selectcId + "/" + selectuId,
+                            url: "/associationManagerSystem_master_war_exploded/clubMembers/" + selectcId + "/" + selectuId,
                             type: "post",
                             dataType: "json",
                             success: function (result) {

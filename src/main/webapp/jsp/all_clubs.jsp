@@ -108,7 +108,7 @@
 
 <script type="text/javascript" src="../layui/layui.js"></script>
 <script src="../js/jquery-3.5.1.js"></script>
-<script src="../js/bootstrap.js"></script>
+<script src="../js/bootstrap.min.js"></script>
 <script src="../js/canvas-nest.js"></script>
 <script type="text/javascript">
     window.onload = function () {
@@ -140,7 +140,7 @@
                         elem: '#LAY_demo1' //流加载容器
                         ,done: function(page, next){ //执行下一页的回调
                             $.ajax({
-                                url: "/srp/clubs/" + (page*4 - 4) + "/" + 4,
+                                url: "/associationManagerSystem_master_war_exploded/clubs/" + (page*4 - 4) + "/" + 4,
                                 type: "get",
                                 dataType: "json",
                                 success: function (result) {

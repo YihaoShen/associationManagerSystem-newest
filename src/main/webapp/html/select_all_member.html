@@ -75,7 +75,7 @@
         var selectuId = request.uId;
 
         $.ajax({
-            url: "/srp/role/" + selectcId + "/" + selectuId,
+            url: "/associationManagerSystem_master_war_exploded/role/" + selectcId + "/" + selectuId,
             type: "get",
             dataType: "json",
             success: function (result) {
@@ -90,7 +90,7 @@
             }
         });
         $.ajax({
-            url: "/srp/applyMember/" + selectcId,
+            url: "/associationManagerSystem_master_war_exploded/applyMember/" + selectcId,
             type: "get",
             dataType: "json",
             success: function (result) {
@@ -116,7 +116,7 @@
                 success: function (layero, index) {
                     table.render({
                         elem: '#apply_table'
-                        , url: '/srp/applyMember/' + selectcId
+                        , url: '/associationManagerSystem_master_war_exploded/applyMember/' + selectcId
                         , method: 'get'
                         , dataType: 'json'
                         , title: '申请表'
@@ -141,7 +141,7 @@
                                 btn: ['确认', '取消']
                                 , yes: function (index) {
                                     $.ajax({
-                                        url: "/srp/clubMembers/" + data.cid + "/" + data.uid,
+                                        url: "/associationManagerSystem_master_war_exploded/clubMembers/" + data.cid + "/" + data.uid,
                                         type: "delete",
                                         dataType: "json",
                                         success: function (result) {
@@ -158,7 +158,7 @@
                             });
                         } else if (obj.event === 'agree') {
                             $.ajax({
-                                url: "/srp/memberStatus/" + data.cid + "/" + data.uid + "/" + 1,
+                                url: "/associationManagerSystem_master_war_exploded/memberStatus/" + data.cid + "/" + data.uid + "/" + 1,
                                 type: "put",
                                 dataType: "json",
                                 success: function (result) {
@@ -188,7 +188,7 @@
 
             table.render({
                 elem: '#test'
-                , url: '/srp/clubMembers/' + selectcId
+                , url: '/associationManagerSystem_master_war_exploded/clubMembers/' + selectcId
                 , method: 'get'
                 , dataType: 'json'
                 , toolbar: '#toolbarDemo'
@@ -268,7 +268,7 @@
                         , yes: function (index) {
                             layer.close(index);
                             $.ajax({
-                                url: "/srp/clubMembers/" + data.cid + "/" + data.uid,
+                                url: "/associationManagerSystem_master_war_exploded/clubMembers/" + data.cid + "/" + data.uid,
                                 type: "delete",
                                 dataType: "json",
                                 success: function (result) {
@@ -299,7 +299,7 @@
                                 var role = 1;
                             }
                             $.ajax({
-                                url: "/srp/clubMembers/" + data.cid + "/" + data.uid + "/" + role,
+                                url: "/associationManagerSystem_master_war_exploded/clubMembers/" + data.cid + "/" + data.uid + "/" + role,
                                 type: "put",
                                 dataType: "json",
                                 success: function (result) {

@@ -280,7 +280,7 @@
         //普通图片上传
         uploadList = upload.render({
             elem: '#selectImg'
-            , url: "/srp/file/upload"
+            , url: "/associationManagerSystem_master_war_exploded/file/upload"
             , accept: 'images'
             , size : 100
             , acceptMime: 'image/*'
@@ -365,7 +365,7 @@
                 let params = JSON.stringify(jsonData);
 
                 $.ajax({
-                    url: "/srp/activities",
+                    url: "/associationManagerSystem_master_war_exploded/activities",
                     type: "post",
                     data: params,
                     async: false,

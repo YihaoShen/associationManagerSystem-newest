@@ -218,7 +218,7 @@
 </div>
 <script type="text/javascript" src="../layui/layui.js"></script>
 <script src="../js/jquery-3.5.1.js"></script>
-<script src="../js/bootstrap.js"></script>
+<script src="../js/bootstrap.min.js"></script>
 <script src="../js/canvas-nest.js"></script>
 <script type="text/javascript">
     var selectaId = "";
@@ -244,7 +244,7 @@
         selectuId = getQueryVariable("uId");
 
         $.ajax({
-            url: "/srp/activity/" + selectaId,
+            url: "/associationManagerSystem_master_war_exploded/activity/" + selectaId,
             type: "get",
             dataType: "json",
             success: function (result) {
@@ -255,7 +255,7 @@
                     document.getElementById("club").innerText = result.cName;
                     cId = result.cId;
                     $.ajax({
-                        url: "/srp/role/" + cId + "/" + selectuId,
+                        url: "/associationManagerSystem_master_war_exploded/role/" + cId + "/" + selectuId,
                         type: "get",
                         dataType: "json",
                         success: function (result) {
@@ -287,7 +287,7 @@
                 btn: ['确认', '取消']
                 , yes: function (index) {
                     $.ajax({
-                        url: "/srp/activities/" + selectaId,
+                        url: "/associationManagerSystem_master_war_exploded/activities/" + selectaId,
                         type: "delete",
                         dataType: "json",
                         success: function (result) {

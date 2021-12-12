@@ -20,7 +20,7 @@
 	<!-- 图标库npmjs.com -->
 	<link rel="stylesheet" href="https://unpkg.com/font-awesome@4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/login.css">
-	<script src="../js/jquery-3.5.1.js"></script>
+	<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
 	<style>
 
 	  main {
@@ -189,13 +189,6 @@
                </form>
             </div>
       </div>
-
-
-
-
-
-				   
-
 			<!-- 展示注册页面 -->
 			<div class="modal modal-register">
   				<a class="close fa fa-close" href="#"></a>
@@ -275,7 +268,7 @@
 		  if($("#file").val() != "") {
 			  $.ajaxFileUpload({
 				  type: "POST",
-				  url:"/srp/file/upload",//后台接口
+				  url:"/associationManagerSystem_master_war_exploded/file/upload",//后台接口
 				  dataType: "json",
 				  fileElementId:"file",  // 文件的id
 				  success: function(d){

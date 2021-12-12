@@ -25,7 +25,7 @@
 
 <script src="../layui/layui.js" charset="utf-8"></script>
 <script src="../js/jquery-3.5.1.js"></script>
-<script src="../js/bootstrap.js"></script>
+<script src="../js/bootstrap.min.js"></script>
 <script src="../js/canvas-nest.js"></script>
 <script>
     layui.use(['table', 'layer'], function () {
@@ -34,7 +34,7 @@
 
         table.render({
             elem: '#test'
-            , url: '/srp/clubApply'
+            , url: '/associationManagerSystem_master_war_exploded/clubApply'
             , method: 'get'
             , dataType: 'json'
             , title: '社团申请表'
@@ -56,7 +56,7 @@
                     btn: ['确认', '取消']
                     , yes: function (index) {
                         $.ajax({
-                            url: "/srp/clubs/" + data.cId,
+                            url: "/associationManagerSystem_master_war_exploded/clubs/" + data.cId,
                             type: "delete",
                             dataType: "json",
                             success: function (result) {
@@ -73,7 +73,7 @@
                 });
             } else if (obj.event === 'agree') {
                 $.ajax({
-                    url: "/srp/clubApply/" + data.cId,
+                    url: "/associationManagerSystem_master_war_exploded/clubApply/" + data.cId,
                     type: "put",
                     dataType: "json",
                     success: function (result) {

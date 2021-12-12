@@ -94,7 +94,7 @@
 
 <script src="../layui/layui.js" charset="utf-8"></script>
 <script src="../js/jquery-3.5.1.js"></script>
-<script src="../js/bootstrap.js"></script>
+<script src="../js/bootstrap.min.js"></script>
 <script src="../js/canvas-nest.js"></script>
 <script>
     layui.use(['layer', 'upload', 'form', 'laydate'], function () {
@@ -116,7 +116,7 @@
         //普通图片上传
         var uploadList1 = upload.render({
             elem: '#selectImg1'
-            , url: "/srp/file/upload"
+            , url: "/associationManagerSystem_master_war_exploded/file/upload"
             , accept: 'images'
             , acceptMime: 'image/*'
             , size: 100
@@ -173,7 +173,7 @@
         var flag = 0;
         var uploadList2 = upload.render({
             elem: '#selectImg2'
-            , url: "/srp/file/upload"
+            , url: "/associationManagerSystem_master_war_exploded/file/upload"
             , accept: 'images'
             , size : 200
             , acceptMime: 'image/*'
@@ -248,7 +248,7 @@
             var finish = JSON.stringify(jsonData);
 
             $.ajax({
-                url: "/srp/clubs",
+                url: "/associationManagerSystem_master_war_exploded/clubs",
                 type: "POST",
                 data: finish,
                 async: false,

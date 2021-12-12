@@ -196,7 +196,7 @@
 
 <script src="../layui/layui.js" charset="utf-8"></script>
 <script src="../js/jquery-3.5.1.js"></script>
-<script src="../js/bootstrap.js"></script>
+<script src="../js/bootstrap.min.js"></script>
 <script src="../js/emoji.js"></script>
 <script src="../js/canvas-nest.js"></script>
 <script src="../wangEditor/dist/wangEditor.js"></script>
@@ -273,7 +273,7 @@
         editor.create();
 
         $.ajax({
-            url: "/srp/activity/" + selectaId,
+            url: "/associationManagerSystem_master_war_exploded/activity/" + selectaId,
             type: "get",
             dataType: "json",
             success: function (result) {
@@ -296,7 +296,7 @@
         //普通图片上传
         uploadList = upload.render({
             elem: '#selectImg'
-            , url: "/srp/file/upload"
+            , url: "/associationManagerSystem_master_war_exploded/file/upload"
             , accept: 'images'
             , size : 100
             , acceptMime: 'image/*'
@@ -380,7 +380,7 @@
                 jsonData["aId"] = selectaId;
                 let params = JSON.stringify(jsonData);
                 $.ajax({
-                    url: "/srp/activities",
+                    url: "/associationManagerSystem_master_war_exploded/activities",
                     type: "put",
                     data: params,
                     async: false,

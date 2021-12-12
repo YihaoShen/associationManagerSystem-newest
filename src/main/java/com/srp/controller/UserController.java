@@ -77,7 +77,7 @@ public class UserController {
     public ModelAndView adminLogin(HttpSession httpSession, @RequestParam("uStuNumber") String uStuNumber, @RequestParam("uPassword") String uPassword) throws SQLException {
         ModelAndView mv = new ModelAndView();
         RedirectAttributes attribute = null;
-        String cId_uId[] = userService.adminLoginService(uStuNumber,uPassword);
+        String cId_uId[] = userService.adminLoginService(uStuNumber, uPassword);
         httpSession.setAttribute("cId", cId_uId[0]);
         httpSession.setAttribute("uId", cId_uId[1]);
 //        attribute.addAttribute("cId", cId_uId[0]);
@@ -95,7 +95,8 @@ public class UserController {
     public ModelAndView superLogin(HttpSession httpSession, @RequestParam("uStuNumber") String uStuNumber, @RequestParam("uPassword") String uPassword) throws SQLException {
         ModelAndView mv = new ModelAndView();
         RedirectAttributes attribute = null;
-        boolean successful = userService.superLoginService(uStuNumber,uPassword);
+        boolean successful = userService.superLoginService(uStuNumber, uPassword);
+        System.out.println(successful);
 
         if (successful) {
             mv.setViewName("redirect:/html/supper.html");
@@ -135,7 +136,7 @@ public class UserController {
         //获取要上传的目标文件夹绝对路径、webapp下
 //        ServletContext context = session.getServletContext();
 //        String realPath = context.getRealPath("/upload");
-        String realPath = "C:/apache-tomcat-9.0.37-windows-x64/apache-tomcat-9.0.37/webapps/srp/upload";
+        String realPath = "D:/apache-tomcat-9.0.56/webapps/srp/upload";
         String needPath = "../upload";
         //重新定义文件名、避免名称重复
         String fileName = UUID.randomUUID().toString().replace("-", "").substring(0, 15) + "_file_" + file.getOriginalFilename();
@@ -151,28 +152,22 @@ public class UserController {
         }
 
 
-
-
-
         ModelAndView mv = new ModelAndView();
 
         LocalDate date = null;
         date = LocalDate.parse(uEnrolTime);
         User u = new User(uStuNumber, uName, uSex, uCollege, uCurrentMajor, date, phone, qq, uPassword);
         boolean registerSuccess = userService.registerService(u);
-        if (registerSuccess==true){
+        if (registerSuccess == true) {
             //获取到uId;
-            int uId =userService.getUIdService(uStuNumber);
+            int uId = userService.getUIdService(uStuNumber);
             //把图片路径写入数据库里面
             userService.writeImgToUploadService(uId, path);
             //注册成功直接跳转到我的个人中心页面
             mv.addObject("message", "注册成功");
-        } else{
+        } else {
             mv.addObject("message", "注册失败");
         }
-
-
-
 
 
         mv.setViewName("login");
@@ -210,19 +205,20 @@ public class UserController {
 
     @RequestMapping(value = "/userInfo/{uName}", method = {RequestMethod.POST, RequestMethod.GET})
     public ModelAndView userInfo(@PathVariable("uName") String uName, HttpSession session) throws SQLException {
+        System.out.println("uName:" + uName);
         ModelAndView mv = new ModelAndView();
         if ((session != null && session.getAttribute("uName").equals(uName)) || uName != null) {
             User user = userService.userInfoService(uName);
             mv.addObject("user", user);
 
-            session.setAttribute("uName",user.getuName());
-            session.setAttribute("uStuNumber",user.getuStuNumber());
-            session.setAttribute("uSex",user.getuSex());
-            session.setAttribute("uCollege",user.getuCollege());
-            session.setAttribute("uCurrentMajor",user.getuCurrentMajor());
-            session.setAttribute("uEnrolTime",user.getuEnrolTime());
-            session.setAttribute("phone",user.getuPhoto());
-            session.setAttribute("qq",user.getQq());
+            session.setAttribute("uName", user.getuName());
+            session.setAttribute("uStuNumber", user.getuStuNumber());
+            session.setAttribute("uSex", user.getuSex());
+            session.setAttribute("uCollege", user.getuCollege());
+            session.setAttribute("uCurrentMajor", user.getuCurrentMajor());
+            session.setAttribute("uEnrolTime", user.getuEnrolTime());
+            session.setAttribute("phone", user.getuPhoto());
+            session.setAttribute("qq", user.getQq());
             mv.setViewName("index");
         } else {
             mv.setViewName("login");
